@@ -17,6 +17,7 @@ test:
 up:
 	docker compose up -d
 
+# TODO: 回数指定ができるとよい、defaultはallで
 .PHONEY: migrate-up
 migration-up:
 	docker run -v ./db/migrations:/migrations --network host migrate/migrate -path=/migrations/ -database postgres://$(POSTGRES_HOST):$(POSTGRES_PORT)/$(POSTGRES_DB) up
