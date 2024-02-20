@@ -6,6 +6,7 @@ import (
 	"log"
 
 	_ "github.com/lib/pq"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
@@ -14,8 +15,10 @@ func main() {
 		log.Fatal(err.Error())
 	}
 
-	fmt.Printf("%T\n", db)
+	fmt.Println(db)
 
-	fmt.Println("Hello world")
-	fmt.Println("test")
+
+	router := gin.Default()
+
+	router.Run()
 }
