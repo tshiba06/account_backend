@@ -1,0 +1,5 @@
+CREATE TABLE public.roles (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(50) NOT NULL,
+  jp_name VARCHAR(50) NOT NULL
+);
