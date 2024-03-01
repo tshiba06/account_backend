@@ -2,11 +2,12 @@ CREATE TABLE public.users (
   id SERIAL PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
   email VARCHAR(100) NOT NULL UNIQUE,
-  role_id INTEGER NOT NULL,
+  role_id INTEGER NOT NULL REFERENCES public.roles (id),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (role_id) REFERENCES public.roles (id)
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE INDEX idx_users_role_id ON public.roles(id);
 
 CREATE OR REPLACE FUNCTION update_timestamp() RETURNS TRIGGER AS $$
 BEGIN
