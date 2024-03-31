@@ -1,4 +1,4 @@
-module account
+module github.com/tshiba06/account_backend
 
 go 1.22.0
 
