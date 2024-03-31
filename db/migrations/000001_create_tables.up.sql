@@ -52,11 +52,11 @@ CREATE TABLE public.users (
   id SERIAL PRIMARY KEY,
   name VARCHAR(50) NOT NULL,
   email VARCHAR(100) NOT NULL UNIQUE,
-  role_id INTEGER NOT NULL REFERENCES public.master_roles(id),
+  master_role_id INTEGER NOT NULL REFERENCES public.master_roles(id),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-CREATE INDEX idx_users_role_id ON public.master_roles(id);
+CREATE INDEX idx_users_role_id ON public.users(master_role_id);
 
 -- 更新時間関数
 CREATE OR REPLACE FUNCTION update_timestamp() RETURNS TRIGGER AS $$
