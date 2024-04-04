@@ -302,6 +302,12 @@ func recursiveGetDiff(beforeValue, afterValue any) (any, any) {
 					beforeM[beforeV.Type().Field(i).Name] = beforeDiff
 					afterM[beforeV.Type().Field(i).Name] = afterDiff
 				}
+			} else {
+				beforeDiff, afterDiff := recursiveGetDiff(beforeV.Field(i).Interface(), afterV.Field(i).Interface())
+				if !reflect.DeepEqual(beforeDiff, afterDiff) {
+					beforeM[beforeV.Type().Field(i).Name] = beforeDiff
+					afterM[beforeV.Type().Field(i).Name] = afterDiff
+				}
 			}
 		}
 	case reflect.Map:
