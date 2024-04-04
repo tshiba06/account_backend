@@ -12,7 +12,7 @@ type UseCaseImpl struct {
 	roleRepo roleRepository.Repository
 }
 
-func NewUsecase(roleRepo roleRepository) {
+func NewUsecase(roleRepo roleRepository.Repository) UseCase {
 	return &UseCaseImpl{
 		roleRepo: roleRepo,
 	}
@@ -26,9 +26,9 @@ func (u UseCaseImpl) Get() ([]*Role, error) {
 
 	var results []*Role
 	for _, r := range roles {
-		results := append(results, &Role{
-			ID: r.ID,
-			Name: r.Name,
+		results = append(results, &Role{
+			ID:          r.ID,
+			Name:        r.Name,
 			DisplayName: r.DisplayName,
 		})
 	}

@@ -4,16 +4,16 @@ import (
 	"fmt"
 	"testing"
 
-	"account/internal/pkg/errors"
+	"github.com/tshiba06/account_backend/internal/pkg/errors"
 )
 
 func TestError(t *testing.T) {
 	t.Parallel()
 
-	testCases := []struct{
-		name string
+	testCases := []struct {
+		name         string
 		preparedFunc func() (int, string)
-		assertFunc func(string)
+		assertFunc   func(string)
 	}{
 		{
 			name: "normal",

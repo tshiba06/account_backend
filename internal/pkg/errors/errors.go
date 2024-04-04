@@ -6,15 +6,15 @@ import (
 )
 
 type Errors struct {
-	Code int
-	Message string
+	Code      int
+	Message   string
 	callstack []uintptr
 }
 
 func New(code int, message string) error {
 	return &Errors{
-		Code: code,
-		Message: message,
+		Code:      code,
+		Message:   message,
 		callstack: initStackTrace(),
 	}
 }
@@ -24,7 +24,14 @@ func (e *Errors) Error() string {
 }
 
 func (e *Errors) StackTraceError() string {
-	return ""
+	var stackMessage string
+	for _, pc := range e.callstack {
+		fn := runtime.FuncForPC(pc)
+		file, line := fn.FileLine(pc)
+		stackMessage += fmt.Sprintf("%s:%d %s\n", file, line, fn.Name())
+	}
+
+	return stackMessage
 }
 
 func initStackTrace() []uintptr {
