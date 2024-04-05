@@ -12,7 +12,7 @@ type UseCaseImpl struct {
 	roleRepo roleRepository.Repository
 }
 
-func NewUsecase(roleRepo roleRepository.Repository) UseCase {
+func NewUseCase(roleRepo roleRepository.Repository) UseCase {
 	return &UseCaseImpl{
 		roleRepo: roleRepo,
 	}
