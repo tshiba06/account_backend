@@ -28,3 +28,8 @@ create-migrate:
 .PHONEY: chown
 chown:
 	sudo chown -R $(id -u):$(id -g) $(ARGS)
+
+.PHONEY: codegen
+codegen:
+	go install github.com/deepmap/oapi-codegen/v2/cmd/opapi-codegen@latest
+	# opapi-codegen -package=gen -generate=server,client -input=./openapi/openapi.yaml -output=./gen

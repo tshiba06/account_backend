@@ -1,0 +1,54 @@
+openapi: "3.1.0"
+info:
+  title: Account API
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080
+
+tags:
+  - name: account
+  - name: user
+
+securitySchemes:
+  - bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+paths:
+  /users:
+    get:
+      summary: Get all users.
+      tags:
+        - user
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+    post:
+      summary: Create a new user.
+      tags:
+        - user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        default:
+          description: Unexpected error
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
