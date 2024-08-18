@@ -5,7 +5,7 @@ import (
 )
 
 type Repository interface {
-	Get() ([]*Role, error)
+	Get() ([]*MasterRole, error)
 }
 
 type RepositoryImpl struct {
@@ -18,6 +18,6 @@ func NewRepository(db *sqlx.DB) Repository {
 	}
 }
 
-func (r *RepositoryImpl) Get() ([]*Role, error) {
+func (r *RepositoryImpl) Get() ([]*MasterRole, error) {
 	return nil, nil
 }

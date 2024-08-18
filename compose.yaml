@@ -12,9 +12,16 @@ services:
     build:
       context: .
       target: final
+    environment:
+      POSTGRES_HOST: host.docker.internal
+      POSTGRES_PORT: 15432
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
-      - 8080:8080
-
+      - 18080:8080
+    networks:
+      - jaeger
     # The commented out section below is an example of how to define a PostgreSQL
     # database that your application can use. `depends_on` tells Docker Compose to
     # start the database before your application. The `db-data` volume persists the
@@ -24,6 +31,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
+
   db:
     image: postgres
     restart: always
@@ -38,9 +46,25 @@ services:
     ports:
       - 15432:5432
     healthcheck:
-      test: [ "CMD", "pg_isready" ]
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
       interval: 10s
       timeout: 5s
       retries: 5
+
+  jaeger:
+    container_name: jaeger
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+      - LOG_LEVEL=debug
+    networks:
+      - jaeger
+
+networks:
+  jaeger:
+
 volumes:
   db-data:

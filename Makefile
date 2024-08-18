@@ -31,5 +31,5 @@ chown:
 
 .PHONEY: codegen
 codegen:
-	go get github.com/deepmap/oapi-codegen/v2/cmd/oapi-codegen@latest
+	go get github.com/oapi-codegen/oapi-codegen/v2/cmd/oapi-codegen@latest
 	oapi-codegen -generate gin -package api ./openapi/openapi.yaml > ./api/api.go
