@@ -12,14 +12,28 @@ import (
 
 	"github.com/tshiba06/account_backend/adapter"
 	"github.com/tshiba06/account_backend/api"
+	"github.com/tshiba06/account_backend/internal/telemetry"
 	roleRepo "github.com/tshiba06/account_backend/repository/role"
 	roleUC "github.com/tshiba06/account_backend/usecase/role"
+	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
+	"go.opentelemetry.io/otel"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/lib/pq"
 )
 
 func main() {
+	tp, err := telemetry.New()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer func() {
+		if err := tp.Shutdown(context.Background()); err != nil {
+			log.Printf("Error shutting down tracer provider: %v", err)
+		}
+	}()
+
 	db, err := adapter.NewDB()
 	if err != nil {
 		log.Fatalf("cannot open db: %s", err)
@@ -35,8 +49,11 @@ func main() {
 	fmt.Println("roleUseCase", roleUseCase)
 
 	router := gin.Default()
+	router.Use(otelgin.Middleware("account-server"))
 
-	api.RegisterHandlers(router, &adapter.Handler{})
+	tracer := otel.Tracer("gin-server")
+
+	api.RegisterHandlers(router, &adapter.Handler{Tracer: tracer})
 
 	srv := &http.Server{
 		Addr:    ":8080",

@@ -11,7 +11,9 @@ services:
   server:
     build:
       context: .
-      target: final
+      # 本番などはこちら
+      # target: final
+      target: develop
     environment:
       POSTGRES_HOST: host.docker.internal
       POSTGRES_PORT: 15432
@@ -57,6 +59,7 @@ services:
     ports:
       - "16686:16686"
       - "14268:14268"
+      - "4318:4318"
     environment:
       - COLLECTOR_OTLP_ENABLED=true
       - LOG_LEVEL=debug
@@ -65,6 +68,7 @@ services:
 
 networks:
   jaeger:
+    driver: bridge
 
 volumes:
   db-data:

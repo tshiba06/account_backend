@@ -76,3 +76,15 @@ EXPOSE 8080
 
 # What the container should run when it is started.
 ENTRYPOINT [ "/bin/server" ]
+
+
+# Local --------------------------------------------------------
+FROM golang:1.23.0 AS develop
+
+WORKDIR /app
+
+COPY . .
+
+RUN go install github.com/air-verse/air@latest
+
+CMD ["air", "-c", ".air.toml"]

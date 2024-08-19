@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/jmoiron/sqlx"
-	"github.com/tshiba06/account_backend/internal/pkg/logger"
+	"github.com/tshiba06/account_backend/internal/logger"
 )
 
 func NewDB() (*sqlx.DB, error) {

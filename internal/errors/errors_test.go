@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/tshiba06/account_backend/internal/pkg/errors"
+	"github.com/tshiba06/account_backend/internal/errors"
 )
 
 func TestError(t *testing.T) {
