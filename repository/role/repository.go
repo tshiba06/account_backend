@@ -1,7 +1,7 @@
 package role
 
 import (
-	"github.com/jmoiron/sqlx"
+	"gorm.io/gorm"
 )
 
 type Repository interface {
@@ -9,10 +9,10 @@ type Repository interface {
 }
 
 type RepositoryImpl struct {
-	db *sqlx.DB
+	db *gorm.DB
 }
 
-func NewRepository(db *sqlx.DB) Repository {
+func NewRepository(db *gorm.DB) Repository {
 	return &RepositoryImpl{
 		db: db,
 	}

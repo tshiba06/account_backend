@@ -1,11 +1,13 @@
 package role
 
 import (
+	"context"
+
 	roleRepository "github.com/tshiba06/account_backend/repository/role"
 )
 
 type UseCase interface {
-	Get() ([]*Role, error)
+	Get(ctx context.Context) ([]*Role, error)
 }
 
 type UseCaseImpl struct {
@@ -18,7 +20,7 @@ func NewUseCase(roleRepo roleRepository.Repository) UseCase {
 	}
 }
 
-func (u UseCaseImpl) Get() ([]*Role, error) {
+func (u UseCaseImpl) Get(ctx context.Context) ([]*Role, error) {
 	roles, err := u.roleRepo.Get()
 	if err != nil {
 		return nil, err
