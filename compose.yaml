@@ -61,7 +61,7 @@ services:
     container_name: prometheus
     volumes:
       - prometheus-data:/prometheus
-      - ./prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml
+      - ./telemetry/prometheus/prometheus.yaml:/etc/prometheus/prometheus.yml
     ports:
       - "9090:9090"
     networks:
@@ -92,7 +92,7 @@ services:
       - monitoring
     command: -config.file=/etc/loki/local-config.yaml
     volumes:
-      - ./loki/config.yaml:/etc/loki/local-config.yaml
+      - ./telemetry/loki/config.yaml:/etc/loki/local-config.yaml
       - loki-wal:/loki/wal
       - loki-index:/loki/index
       - loki-chunks:/loki/chunks
@@ -104,7 +104,7 @@ services:
       - monitoring
     volumes:
       - /var/log:/var/log
-      - ./promtail/config.yaml:/etc/promtail/config.yml
+      - ./telemetry/promtail/config.yaml:/etc/promtail/config.yml
 
 networks:
   jaeger:
