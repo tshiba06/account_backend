@@ -14,7 +14,7 @@ import (
 	semconv "go.opentelemetry.io/otel/semconv/v1.4.0"
 )
 
-func New() (*sdktrace.TracerProvider, error) {
+func NewTracerProvider() (*sdktrace.TracerProvider, error) {
 	headers := map[string]string{
 		"content-type": "application/json",
 	}

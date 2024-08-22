@@ -25,7 +25,7 @@ import (
 )
 
 func main() {
-	tp, err := telemetry.New()
+	tp, err := telemetry.NewTracerProvider()
 	if err != nil {
 		log.Fatal(err)
 	}

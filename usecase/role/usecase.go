@@ -21,7 +21,7 @@ func NewUseCase(roleRepo roleRepository.Repository) UseCase {
 }
 
 func (u UseCaseImpl) Get(ctx context.Context) ([]*Role, error) {
-	roles, err := u.roleRepo.Get()
+	roles, err := u.roleRepo.Get(ctx)
 	if err != nil {
 		return nil, err
 	}
