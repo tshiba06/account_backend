@@ -10,6 +10,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/prometheus/client_golang/prometheus"
 	"github.com/tshiba06/account_backend/adapter"
 	"github.com/tshiba06/account_backend/api"
 	"github.com/tshiba06/account_backend/internal/telemetry"
@@ -23,6 +24,20 @@ import (
 	"go.opentelemetry.io/contrib/instrumentation/github.com/gin-gonic/gin/otelgin"
 	"go.opentelemetry.io/otel"
 )
+
+var (
+	httpRequests = prometheus.NewCounterVec(
+		prometheus.CounterOpts{
+			Name: "http_requests_total",
+			Help: "Total number of HTTP requests",
+		},
+		[]string{"method", "handler"},
+	)
+)
+
+func init() {
+	prometheus.MustRegister(httpRequests)
+}
 
 func main() {
 	tp, err := telemetry.NewTracerProvider()

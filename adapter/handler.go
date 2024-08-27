@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/tshiba06/account_backend/usecase/user"
 	"go.opentelemetry.io/otel/trace"
 )
@@ -27,4 +28,8 @@ func (h *Handler) PostUsers(c *gin.Context) {
 	defer span.End()
 
 	c.JSON(http.StatusOK, &gin.H{"msg": "Test"})
+}
+
+func (h *Handler) GetMetrics(c *gin.Context) {
+	promhttp.Handler()
 }

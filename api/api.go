@@ -9,6 +9,9 @@ import (
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
+	// Prometheus metrics
+	// (GET /metrics)
+	GetMetrics(c *gin.Context)
 	// Get all users.
 	// (GET /users)
 	GetUsers(c *gin.Context)
@@ -25,6 +28,19 @@ type ServerInterfaceWrapper struct {
 }
 
 type MiddlewareFunc func(c *gin.Context)
+
+// GetMetrics operation middleware
+func (siw *ServerInterfaceWrapper) GetMetrics(c *gin.Context) {
+
+	for _, middleware := range siw.HandlerMiddlewares {
+		middleware(c)
+		if c.IsAborted() {
+			return
+		}
+	}
+
+	siw.Handler.GetMetrics(c)
+}
 
 // GetUsers operation middleware
 func (siw *ServerInterfaceWrapper) GetUsers(c *gin.Context) {
@@ -79,6 +95,7 @@ func RegisterHandlersWithOptions(router gin.IRouter, si ServerInterface, options
 		ErrorHandler:       errorHandler,
 	}
 
+	router.GET(options.BaseURL+"/metrics", wrapper.GetMetrics)
 	router.GET(options.BaseURL+"/users", wrapper.GetUsers)
 	router.POST(options.BaseURL+"/users", wrapper.PostUsers)
 }

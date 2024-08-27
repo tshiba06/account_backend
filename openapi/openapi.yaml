@@ -8,6 +8,7 @@ servers:
 tags:
   - name: account
   - name: user
+  - name: metrics
 
 securitySchemes:
   - bearerAuth:
@@ -40,6 +41,15 @@ paths:
       responses:
         default:
           description: Unexpected error
+
+  /metrics:
+    get:
+      summary: Prometheus metrics
+      tags:
+        - metrics
+      responses:
+        200:
+          description: OK
 
 components:
   schemas:
